@@ -1,35 +1,72 @@
-# facebook.node
+# github.node
 
-A simple Facebook API for Node.js
+Github v3 Client for Node.js
 
 ## Installation
 ```
-  npm install facebook.node
+npm install github.node
 ```
-
 
 ## Usage
+
+```javascript
+var Github = require('github.node');
+
+var client = new Github({access_token: '...'});
+client.
 ```
-  var Facebook = require('facebook.node'),
-      client = new Facebook(access_token);
-  
-  client.graph('me', function(err, user) {
-    if (err) {
-      console.error(err.stack);
-      return;
-    }
 
-    console.log('Nice to meet you ' + user.name + '!');
-  });
+## Constructors
 
-  client.graph_each('me/friends', function(friend) {
-    console.log('I know ' + friend.name);
-  }, function(err, count) {
-    if (err) {
-      console.error(err.stack);
-      return;
-    }
+#### new Github()
+#### new Github({access_token: '...'})
 
-    console.log('Wow, I have ' + (count == 0 ? 'no' : count) + ' friend' + (count == 1 ? '' : 's') + '!');
-  });
-```
+## Methods
+
+### Users API
+
+### Authenticated
+
+#### client.user.get(callback)
+#### client.user.update(updates, callback)
+
+#### client.user.emails.list(callback)
+#### client.user.emails.add(emails, callback)
+#### client.user.emails.remove(emails, callback)
+
+#### client.user.followers.list(callback)
+#### client.user.following.list(callback)
+#### client.user.following.check(username, callback)
+#### client.user.following.add(username, callback)
+#### client.user.following.remove(username, callback)
+
+### Not Authenticated
+
+#### client.users.list([parameters], callback)
+#### client.users(username).get(callback)
+
+#### client.users(username).followers.list(callback)
+#### client.users(username).following.list(callback)
+
+### Repos API
+
+### Authenticated
+
+#### client.repos.list([parameters], callback)
+#### client.repos.get(repo, callback)
+#### client.repos.create(data, callback)
+#### client.repos.update(repo, updates, callback)
+
+#### client.orgs(organization).repos.create(data, callback)
+#### client.
+
+### Not Authenticated
+
+#### client.repos.list([parameters], callback)
+#### client.users(username).repos.list([parameters], callback)
+#### client.users(username).repos.get(repo, callback)
+#### client.orgs(organization).repos.list([parameters], callback)
+
+## License
+Copyright (c) 2013 Matt Insler  
+Licensed under the MIT license.
