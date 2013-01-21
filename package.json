@@ -1,18 +1,36 @@
 {
-  "name": "facebook.node",
-  "description": "Facebook API Client",
-  "author": "Matt Insler <matt.insler@gmail.com> (www.mattinsler.com)",
-  "version": "0.2.0",
+  "name": "github.node",
+  "description": "Github v3 API client",
+  "version": "0.1.0",
+  "homepage": "https://github.com/mattinsler/github.node",
+  "author": {
+    "name": "Matt Insler",
+    "email": "matt.insler@gmail.com",
+    "url": "http://www.mattinsler.com"
+  },
   "repository": {
     "type": "git",
-    "url": "git://github.com/mattinsler/facebook.node.git"
+    "url": "git://github.com/mattinsler/github.node.git"
   },
-  "main": "index",
+  "bugs": {
+    "url": "https://github.com/mattinsler/github.node/issues"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/mattinsler/github.node/blob/master/LICENSE-MIT"
+    }
+  ],
+  "main": "dist/github",
   "engines": {
-    "node": "*"
+    "node": ">= 0.6.0"
   },
   "dependencies": {
-    "rest.node": "0.2.0"
+    "rest.node": "0.3.x"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "grunt": "~0.3.15",
+    "grunt-contrib": "~0.3.0"
+  },
+  "keywords": []
 }
