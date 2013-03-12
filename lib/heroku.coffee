@@ -4,11 +4,6 @@ Api = {
   Apps: class AppsApi
     constructor: (@client) ->
     list: (cb) -> @client.get('/apps', cb)
-    
-      #### client.app('app-name').get(callback)
-      #### client.app('app-name').maintenance_mode_on(callback)
-      #### client.app('app-name').maintenance_mode_off(callback)
-      #### client.app('app-name').destroy(callback)
   
   App: class AppApi
     constructor: (@client, @app) ->
