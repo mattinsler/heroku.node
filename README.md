@@ -1,6 +1,6 @@
 # heroku.node
 
-Heroku API client for Node.js
+[Heroku API](https://api-docs.heroku.com) client for node.js
 
 ## Installation
 ```
