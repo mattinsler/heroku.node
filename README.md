@@ -1,71 +1,47 @@
-# github.node
+# heroku.node
 
-Github v3 Client for Node.js
+Heroku API client for Node.js
 
 ## Installation
 ```
-npm install github.node
+npm install heroku.node
 ```
 
 ## Usage
 
 ```javascript
-var Github = require('github.node');
+var Heroku = require('heroku.node');
 
-var client = new Github({access_token: '...'});
-client.
+var client = new Heroku({api_key: '...'});
+// Do something with client
 ```
 
 ## Constructors
 
-#### new Github()
-#### new Github({access_token: '...'})
+#### new Heroku({api_key: '...'})
 
 ## Methods
 
-### Users API
+### Apps API
 
-### Authenticated
+#### client.apps.list(callback)
 
-#### client.user.get(callback)
-#### client.user.update(updates, callback)
+#### client.app('app-name').get(callback)
+#### client.app('app-name').maintenance_mode_on(callback)
+#### client.app('app-name').maintenance_mode_off(callback)
+#### client.app('app-name').destroy(callback)
 
-#### client.user.emails.list(callback)
-#### client.user.emails.add(emails, callback)
-#### client.user.emails.remove(emails, callback)
+### Processes API
 
-#### client.user.followers.list(callback)
-#### client.user.following.list(callback)
-#### client.user.following.check(username, callback)
-#### client.user.following.add(username, callback)
-#### client.user.following.remove(username, callback)
+#### client.app('app-name').processes.list(callback)
+#### client.app('app-name').processes.restart(callback)
+#### client.app('app-name').processes.restart_type('process-type', callback)
+#### client.app('app-name').processes.stop(callback)
+#### client.app('app-name').processes.stop_type('process-type', callback)
+#### client.app('app-name').processes.scale('process-type', quantity, callback)
 
-### Not Authenticated
-
-#### client.users.list([parameters], callback)
-#### client.users(username).get(callback)
-
-#### client.users(username).followers.list(callback)
-#### client.users(username).following.list(callback)
-
-### Repos API
-
-### Authenticated
-
-#### client.repos.list([parameters], callback)
-#### client.repos.get(repo, callback)
-#### client.repos.create(data, callback)
-#### client.repos.update(repo, updates, callback)
-
-#### client.orgs(organization).repos.create(data, callback)
-#### client.
-
-### Not Authenticated
-
-#### client.repos.list([parameters], callback)
-#### client.users(username).repos.list([parameters], callback)
-#### client.users(username).repos.get(repo, callback)
-#### client.orgs(organization).repos.list([parameters], callback)
+#### client.app('app-name').process('process-id').restart(callback)
+#### client.app('app-name').process('process-id').stop(callback)
 
 ## License
 Copyright (c) 2013 Matt Insler  

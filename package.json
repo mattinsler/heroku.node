@@ -1,8 +1,8 @@
 {
-  "name": "github.node",
-  "description": "Github v3 API client",
+  "name": "heroku.node",
+  "description": "Heroku API client",
   "version": "0.1.0",
-  "homepage": "https://github.com/mattinsler/github.node",
+  "homepage": "https://github.com/mattinsler/heroku.node",
   "author": {
     "name": "Matt Insler",
     "email": "matt.insler@gmail.com",
@@ -10,18 +10,18 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/mattinsler/github.node.git"
+    "url": "git://github.com/mattinsler/heroku.node.git"
   },
   "bugs": {
-    "url": "https://github.com/mattinsler/github.node/issues"
+    "url": "https://github.com/mattinsler/heroku.node/issues"
   },
   "licenses": [
     {
       "type": "MIT",
-      "url": "https://github.com/mattinsler/github.node/blob/master/LICENSE-MIT"
+      "url": "https://github.com/mattinsler/heroku.node/blob/master/LICENSE-MIT"
     }
   ],
-  "main": "dist/github",
+  "main": "dist/heroku",
   "engines": {
     "node": ">= 0.6.0"
   },
