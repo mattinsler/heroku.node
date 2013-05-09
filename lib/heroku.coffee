@@ -23,7 +23,7 @@ Api = {
     restart_type: (type, cb) -> @client.post("/apps/#{@app}/ps/restart", {type: type}, cb)
     stop: (cb) -> @client.post("/apps/#{@app}/ps/stop", cb)
     stop_type: (type, cb) -> @client.post("/apps/#{@app}/ps/stop", {type: type}, cb)
-    scale: (type, quantity) -> @client.post("/apps/#{@app}/ps/scale", {type: type, qty: quantity}, cb)
+    scale: (type, quantity, cb) -> @client.post("/apps/#{@app}/ps/scale", {type: type, qty: quantity}, cb)
   
   Process: class ProcessApi
     constructor: (@client, @app, @process) ->

@@ -85,7 +85,7 @@
         }, cb);
       };
 
-      ProcessesApi.prototype.scale = function(type, quantity) {
+      ProcessesApi.prototype.scale = function(type, quantity, cb) {
         return this.client.post("/apps/" + this.app + "/ps/scale", {
           type: type,
           qty: quantity
