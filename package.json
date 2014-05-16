@@ -1,7 +1,7 @@
 {
   "name": "heroku.node",
   "description": "Heroku API client",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "homepage": "https://github.com/mattinsler/heroku.node",
   "author": {
     "name": "Matt Insler",
@@ -26,7 +26,7 @@
     "node": ">= 0.8.0"
   },
   "dependencies": {
-    "rest.node": "^0.4.1"
+    "rest.node": "~0.4.1"
   },
   "devDependencies": {
     "grunt": "~0.4.1",
