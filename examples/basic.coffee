@@ -1,6 +1,6 @@
 Heroku = require '../lib/heroku'
 
-client = new Heroku(email: 'matt.insler@gmail.com', api_key: '65d112c8-0e9a-4d7b-8704-3ba69d6c8b13')
+client = new Heroku(email: '', api_key: '')
 
 print = -> console.log arguments
 
