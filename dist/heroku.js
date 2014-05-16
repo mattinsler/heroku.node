@@ -1,5 +1,5 @@
 (function() {
-  var Api, AppApi, AppsApi, Heroku, ProcessApi, ProcessesApi, Rest,
+  var Api, AppApi, AppsApi, DynoApi, DynosApi, Heroku, Rest,
     __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
@@ -7,7 +7,6 @@
 
   Api = {
     Apps: AppsApi = (function() {
-
       function AppsApi(client) {
         this.client = client;
       }
@@ -20,11 +19,10 @@
 
     })(),
     App: AppApi = (function() {
-
       function AppApi(client, app) {
         this.client = client;
         this.app = app;
-        this.processes = new Api.Processes(this.client, this.app);
+        this.dynos = new Api.Dynos(this.client, this.app);
       }
 
       AppApi.prototype.get = function(cb) {
@@ -32,14 +30,14 @@
       };
 
       AppApi.prototype.maintenance_mode_on = function(cb) {
-        return this.client.post("/apps/" + this.app + "/server/maintenance", {
-          maintenance_mode: 1
+        return this.client.patch("/apps/" + this.app, {
+          maintenance: true
         }, cb);
       };
 
       AppApi.prototype.maintenance_mode_off = function(cb) {
-        return this.client.post("/apps/" + this.app + "/server/maintenance", {
-          maintenance_mode: 0
+        return this.client.patch("/apps/" + this.app, {
+          maintenance: false
         }, cb);
       };
 
@@ -47,98 +45,83 @@
         return this.client["delete"]("/apps/" + this.app, cb);
       };
 
-      AppApi.prototype.process = function(process) {
-        return new Api.Process(this.client, this.app, process);
+      AppApi.prototype.dyno = function(id) {
+        return new Api.Dyno(this.client, this.app, id);
       };
 
       return AppApi;
 
     })(),
-    Processes: ProcessesApi = (function() {
-
-      function ProcessesApi(client, app) {
+    Dynos: DynosApi = (function() {
+      function DynosApi(client, app) {
         this.client = client;
         this.app = app;
       }
 
-      ProcessesApi.prototype.list = function(cb) {
-        return this.client.get("/apps/" + this.app + "/ps", cb);
+      DynosApi.prototype.list = function(cb) {
+        return this.client.get("/apps/" + this.app + "/dynos", cb);
       };
 
-      ProcessesApi.prototype.restart = function(cb) {
-        return this.client.post("/apps/" + this.app + "/ps/restart", cb);
+      DynosApi.prototype.restart = function(cb) {
+        return this.client["delete"]("/apps/" + this.app + "/dynos", cb);
       };
 
-      ProcessesApi.prototype.restart_type = function(type, cb) {
-        return this.client.post("/apps/" + this.app + "/ps/restart", {
-          type: type
-        }, cb);
+      DynosApi.prototype.stop_type = function(type) {
+        return this.scale(type, 0, cb);
       };
 
-      ProcessesApi.prototype.stop = function(cb) {
-        return this.client.post("/apps/" + this.app + "/ps/stop", cb);
-      };
-
-      ProcessesApi.prototype.stop_type = function(type, cb) {
-        return this.client.post("/apps/" + this.app + "/ps/stop", {
-          type: type
-        }, cb);
-      };
-
-      ProcessesApi.prototype.scale = function(type, quantity, cb) {
-        return this.client.post("/apps/" + this.app + "/ps/scale", {
-          type: type,
+      DynosApi.prototype.scale = function(type, quantity, cb) {
+        return this.client.patch("/apps/" + this.app + "/formation/" + type, {
           qty: quantity
         }, cb);
       };
 
-      return ProcessesApi;
+      return DynosApi;
 
     })(),
-    Process: ProcessApi = (function() {
-
-      function ProcessApi(client, app, process) {
+    Dyno: DynoApi = (function() {
+      function DynoApi(client, app, dyno) {
         this.client = client;
         this.app = app;
-        this.process = process;
+        this.dyno = dyno;
       }
 
-      ProcessApi.prototype.restart = function(cb) {
-        return this.client.post("/apps/" + this.app + "/ps/restart", {
-          ps: this.process
-        }, cb);
+      DynoApi.prototype.get = function(cb) {
+        return this.client.get("/apps/" + this.app + "/dynos/" + this.dyno, cb);
       };
 
-      ProcessApi.prototype.stop = function(cb) {
+      DynoApi.prototype.restart = function(cb) {
+        return this.client["delete"]("/apps/" + this.app + "/dynos/" + this.dyno, cb);
+      };
+
+      DynoApi.prototype.stop = function(cb) {
         return this.client.post("/apps/" + this.app + "/ps/stop", {
           ps: this.process
         }, cb);
       };
 
-      return ProcessApi;
+      return DynoApi;
 
     })()
   };
 
   Heroku = (function(_super) {
-
     __extends(Heroku, _super);
 
     Heroku.hooks = {
-      json: function(request_opts, opts) {
-        var _ref;
-        if ((_ref = request_opts.headers) == null) {
+      headers: function(request_opts, opts) {
+        if (request_opts.headers == null) {
           request_opts.headers = {};
         }
-        return request_opts.headers.Accept = 'application/json';
+        request_opts.headers.Accept = 'application/vnd.heroku+json; version=3';
+        return request_opts.headers['User-Agent'] = 'heroku.node';
       },
-      api_key: function(api_key) {
+      api_key: function(email, api_key) {
         return function(request_opts, opts) {
-          var _ref;
-          if ((_ref = request_opts.headers) == null) {
+          if (request_opts.headers == null) {
             request_opts.headers = {};
           }
-          return request_opts.headers.Authorization = 'Basic ' + new Buffer(':' + api_key).toString('base64');
+          return request_opts.headers.Authorization = 'Basic ' + new Buffer(email + ':' + api_key).toString('base64');
         };
       },
       get: function(request_opts, opts) {
@@ -154,9 +137,9 @@
       Heroku.__super__.constructor.call(this, {
         base_url: 'https://api.heroku.com'
       });
-      this.hook('pre:request', Heroku.hooks.json);
-      if (this.options.api_key != null) {
-        this.hook('pre:request', Heroku.hooks.api_key(this.options.api_key));
+      this.hook('pre:request', Heroku.hooks.headers);
+      if ((this.options.email != null) && (this.options.api_key != null)) {
+        this.hook('pre:request', Heroku.hooks.api_key(this.options.email, this.options.api_key));
       }
       this.hook('pre:post', Heroku.hooks.post);
       this.apps = new Api.Apps(this);

@@ -1,7 +1,7 @@
 {
   "name": "heroku.node",
   "description": "Heroku API client",
-  "version": "0.0.2",
+  "version": "0.2.0",
   "homepage": "https://github.com/mattinsler/heroku.node",
   "author": {
     "name": "Matt Insler",
@@ -23,14 +23,15 @@
   ],
   "main": "dist/heroku",
   "engines": {
-    "node": ">= 0.6.0"
+    "node": ">= 0.8.0"
   },
   "dependencies": {
-    "rest.node": "0.3.x"
+    "rest.node": "^0.4.1"
   },
   "devDependencies": {
-    "grunt": "~0.3.15",
-    "grunt-contrib": "~0.3.0"
+    "grunt": "~0.4.1",
+    "grunt-contrib-coffee": "~0.7.0",
+    "grunt-contrib-clean": "~0.5.0"
   },
   "keywords": []
 }
