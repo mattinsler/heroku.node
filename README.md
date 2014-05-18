@@ -45,8 +45,8 @@ client.apps.list().then(function(apps) {
 
 #### client.app('app-name').dynos.list(callback)
 #### client.app('app-name').dynos.restart(callback)
-#### client.app('app-name').processes.stop_type('process-type', callback)
-#### client.app('app-name').processes.scale('process-type', quantity, callback)
+#### client.app('app-name').dynos.stop_type('process-type', callback)
+#### client.app('app-name').dynos.scale('process-type', quantity, callback)
 
 #### client.app('app-name').dyno('dyno-id').get(callback)
 #### client.app('app-name').dyno('dyno-id').restart(callback)
